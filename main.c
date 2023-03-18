@@ -13,7 +13,7 @@ Created by Matt Kreul on 7/3/21.
  * "slash * $1 * slash"
  */
 
-int main(int argv, char** argc) {
+int main() {
     /* Strings of all of the sudoku puzzles to solve.  These were taken from Timo Mantere's & Janne Koljonen's sudoku
      * solving page here: http://lipas.uwasa.fi/~timan/sudoku/ not sure the best way to cite... Their work involved much
      * more extensive research into evolutionary algorithm's that are much too sophisticated for this.  Their text files
@@ -22,7 +22,7 @@ int main(int argv, char** argc) {
     int i;
     int** solved;
     int** board;
-    char** strings = {
+    char* strings[] = {
             "sudokus/s01a.txt",
             "sudokus/s01b.txt",
             "sudokus/s01c.txt",
@@ -70,7 +70,6 @@ int main(int argv, char** argc) {
             "sudokus/s15c.txt",
             "sudokus/s16.txt"
         };
-    // }
 
     /* Run through all of the boards and print them out before and after being solved. */
     for( i = 0; i < 46; i++){

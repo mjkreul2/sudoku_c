@@ -1,11 +1,8 @@
-# Lab 9 Makefile
-# AerE 361
-# Professor Matthew E. Nelson
-# SOLUTION
+
 
 IDIR =./include
 CC=gcc
-CFLAGS=-I$(IDIR) -Wall -std=c11
+CFLAGS=-I$(IDIR) -Wall -std=c99
 LIBS=-lm
 ODIR=bin
 LIBDIR=lib
@@ -17,9 +14,6 @@ Sudoku: main.o stack.o sudoku.o
 	@echo "Creating Executable"
 	@$(CC) $(CFLAGS) -o Sudoku $(ODIR)/main.o $(ODIR)/stack.o $(ODIR)/sudoku.o
 	@echo "Executable created successfully!"
-
-#run: all
-#	./convert_fit data/aere361_data.fit
 
 main.o: stack.o sudoku.o
 	@echo "Creating main object file"
