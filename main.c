@@ -22,13 +22,7 @@ int main(int argv, char** argc) {
     int i;
     int** solved;
     int** board;
-    char** strings;
-    if (argv > 1){
-        strcpy(strings[0], argc[0]);
-    }
-    else{
-    
-        strings = {
+    char** strings = {
             "sudokus/s01a.txt",
             "sudokus/s01b.txt",
             "sudokus/s01c.txt",
@@ -74,9 +68,9 @@ int main(int argv, char** argc) {
             "sudokus/s15a.txt",
             "sudokus/s15b.txt",
             "sudokus/s15c.txt",
-            "sudokus/s16.txt",
+            "sudokus/s16.txt"
         };
-    }
+    // }
 
     /* Run through all of the boards and print them out before and after being solved. */
     for( i = 0; i < 46; i++){
@@ -100,12 +94,11 @@ int main(int argv, char** argc) {
             printf("%s 's solution is not valid...\n", strings[i]);
         }
         printf("Solved %d boards\n", i + 1);
-/*        for(int j = 0; j < 9; j ++){
+        /*        for(int j = 0; j < 9; j ++){
             int * tempBoard = board[i];
             int * tempSolved = solved[i];
            free(tempBoard);
-            free(tempSolved);
-       } */
+            free(tempSolved);} */
 
         free(board);
         free(solved);
