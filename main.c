@@ -1,19 +1,34 @@
-//
-// Created by Matt Kreul on 7/3/21.
-//
-
+/*
+Created by Matt Kreul on 7/3/21.
+*/
 
 #include <stdio.h>
 #include "lib/sudoku.h"
 #include <string.h>
 
-int main() {
-    // Strings of all of the sudoku puzzles to solve.  These were taken from Timo Mantere's & Janne Koljonen's sudoku
-    // solving page here: http://lipas.uwasa.fi/~timan/sudoku/ not sure the best way to cite... Their work involved much
-    // more extensive research into evolutionary algorithm's that are much too sophisticated for this.  Their text files
-    // of sudoku's were very helpful in providing easy testing boards for my algorithm.
 
-    char* strings[] = {
+/* to change any comments use the following regex:
+ * \/\/([^\/]+?)$
+ * and
+ * "slash * $1 * slash"
+ */
+
+int main(int argv, char** argc) {
+    /* Strings of all of the sudoku puzzles to solve.  These were taken from Timo Mantere's & Janne Koljonen's sudoku
+     * solving page here: http://lipas.uwasa.fi/~timan/sudoku/ not sure the best way to cite... Their work involved much
+     * more extensive research into evolutionary algorithm's that are much too sophisticated for this.  Their text files
+     * of sudoku's were very helpful in providing easy testing boards for my algorithm.
+     */
+    int i;
+    int** solved;
+    int** board;
+    char** strings;
+    if (argv > 1){
+        strcpy(strings[0], argc[0]);
+    }
+    else{
+    
+        strings = {
             "sudokus/s01a.txt",
             "sudokus/s01b.txt",
             "sudokus/s01c.txt",
@@ -60,32 +75,42 @@ int main() {
             "sudokus/s15b.txt",
             "sudokus/s15c.txt",
             "sudokus/s16.txt",
-    };
+        };
+    }
 
-    // Run through all of the boards and print them out before and after being solved.
-    for(int i = 0; i < 46; i++){
-        int** board = buildBoard(strings[i]);
-        if(board ==NULL) {
+    /* Run through all of the boards and print them out before and after being solved. */
+    for( i = 0; i < 46; i++){
+        board = buildBoard(strings[i]);
+        if(board == NULL) {
             fprintf(stderr, "\n\n Board creation error \n\n");
             break;
         }
         printf("solving %s board\n", strings[i]);
         printBoard(board);
-        int** solved = solve(board);
+        solved = solve(board);
         if(solved == NULL){
             fprintf(stderr, "\n\n board could not be initialized\n\n");
             break;
         }
         printBoard(solved);
+        if(isSolution(solved) == 1) {
+            printf("%s 's solution is valid!\n", strings[i]);
+        }
+        else{
+            printf("%s 's solution is not valid...\n", strings[i]);
+        }
         printf("Solved %d boards\n", i + 1);
-//        for(int j = 0; j < 9; j ++){
-//            int * tempBoard = board[i];
-//            int * tempSolved = solved[i];
-//            free(tempBoard);
-//            free(tempSolved);
-//        }
+/*        for(int j = 0; j < 9; j ++){
+            int * tempBoard = board[i];
+            int * tempSolved = solved[i];
+           free(tempBoard);
+            free(tempSolved);
+       } */
+
         free(board);
         free(solved);
 
     }
+
+    return 0;
 }

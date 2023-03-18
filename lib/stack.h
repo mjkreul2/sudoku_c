@@ -1,6 +1,6 @@
-//
-// Created by Matt Kreul on 7/3/21.
-//
+/*
+ Created by Matt Kreul on 7/3/21.
+*/
 /**
  * This is an implementation of an array based stack.
  */
@@ -12,7 +12,7 @@
 
 #define MAX_ITEMS 100
 
-//typedef struct node_t node;
+/*typedef struct node_t node;*/
 typedef struct Stack_t Stack;
 
 /**
@@ -27,26 +27,27 @@ typedef struct Stack_t Stack;
  * http://jiten-thakkar.com/posts/writing-generic-stack-in-c
  */
 struct Stack_t{
-    // void pointers to hold any type of value
+    /* void pointers to hold any type of value*/
     void * items;
-    // index of where the last item is
+    /* index of where the last item is*/
     int top;
-    // the maximum number of items that can be placed into the stack
+    /* the maximum number of items that can be placed into the stack*/
     int maxItems;
-    // the size of each member in the stack
-    int memberSize;
+    /* the size of each member in the stack*/
+    size_t memberSize;
 };
 
-Stack* createStack(int);
+/*@null@*/ Stack* createStack(size_t);
 
-int push(void *, Stack*);
+int push(void *, /*@returned@*/Stack*);
 
 int pop(void *, Stack*);
 
-void increaseSize(Stack*);
+/*@unused@*/ static void increaseSize(/*@null@*/Stack*);
 
-int freeStack(Stack*);
-//For debugging purposes
-//void printStack(Stack*);
+/*int freeStack(Stack*);*/
 
-#endif //SUDOKU_C_STACK_H
+/*For debugging purposes*/
+/*void printStack(Stack*);*/
+
+#endif /*SUDOKU_C_STACK_H*/
