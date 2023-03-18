@@ -1,6 +1,7 @@
-//
-// Created by Matt Kreul on 7/3/21.
-//
+/*
+ * Created by Matt Kreul on 7/3/21.
+ */
+
 
 #ifndef SUDOKU_C_SUDOKU_H
 #define SUDOKU_C_SUDOKU_H
@@ -22,17 +23,21 @@ struct Index_t{
     int j;
 };
 
-int** solve(int**);
+/*@null@*/ int** solve(/*@null@*/int**);
 
-int validMove(int, int, int, int**);
+/*@unused@*/ static int validMove(int, int, int, int**);
 
 void printBoard(int**);
 
-int** copyBoard(int**);
+/*@null@*/ static int** copyBoard(/*@null@*/ int**);
 
-int** buildBoard(char *);
+/*@null@*/ int** buildBoard(char *);
+
+int isSolution(int **);
+
+//int solvable(int**);
 
 
 
 
-#endif //SUDOKU_C_SUDOKU_H
+#endif /*SUDOKU_C_SUDOKU_H*/

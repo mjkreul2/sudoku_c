@@ -1,6 +1,6 @@
-//
-// Created by Matt Kreul on 7/3/21.
-//
+/*
+ * Created by Matt Kreul on 7/3/21.
+ */
 
 #include <strings.h>
 #include "../lib/stack.h"
@@ -9,33 +9,36 @@
  * Creates a stack struct.  The input variable is for the item size that we want to use.  Since the stack is generic, we
  * must input an item size so we know how much memory to allocate for the items array.
  *
+ * use splint src/stack.c -compdef -mayaliasunique
  * @param itemSize
  *  size of each item to place into the array
  * @return
  *  a created stack
  */
-Stack* createStack(int itemSize){
-    // first we allocate memory for our stack struct
-    Stack * toRet = (Stack *) malloc(sizeof(Stack)); // This needed to be Stack and not Stack *
-    // if it was not created successfully, return NULL so we can know what happened.
+/*@null@*/ Stack* createStack(size_t itemSize){
+    /* first we allocate memory for our stack struct*/
+    /*@out@*/Stack * toRet;
+    toRet = (Stack *) malloc(sizeof(Stack)); /* This needed to be Stack and not Stack **/
+    /* if it was not created successfully, return NULL so we can know what happened.*/
     if (toRet == NULL) {
         fprintf(stderr, "\n\nstack could not be created\n\n");
         return NULL;
     }
-    // set the max items (remember the initial size is 100!!)
+    /* set the max items (remember the initial size is 100!!)*/
     toRet->maxItems = MAX_ITEMS;
-    // top is our parameter for where exactly our last item in the stack is (since there are no items yet, there is no
-    // top!)
-    toRet->top = -1; // number of items is now 0
-    // allocate memory for our items array. (we do the same thing we did for the stack memory allocation).
+    /* top is our parameter for where exactly our last item in the stack is (since there are no items yet, there is no*/
+    /* top!)*/
+    toRet->top = -1; /* number of items is now 0*/
+    /* allocate memory for our items array. (we do the same thing we did for the stack memory allocation).*/
     toRet->items = malloc(itemSize * MAX_ITEMS);
     if (toRet->items == NULL) {
         fprintf(stderr, "\n\nitems array not initialized correctly\n\n");
+        free(toRet);
         return NULL;
     }
-    // save the item size so we can know EXACTLY where to grab our next item at!
+    /* save the item size so we can know EXACTLY where to grab our next item at!*/
     toRet->memberSize = itemSize;
-    // finally, return our created stack!
+    /* finally, return our created stack!*/
     return toRet;
 }
 
@@ -50,7 +53,13 @@ Stack* createStack(int itemSize){
  *  1 if the algorithm worked correctly
  */
 int push(void * item, Stack* stack){
-    // if the stack size is greater than f the max items
+    void* target;
+
+    if(stack == NULL){
+        fprintf(stderr, "\n\nInput Stack is null\n\n");
+        return 0;
+    }
+    /* if the stack size is greater than f the max items*/
     if (stack->top == (int) stack->maxItems - 1){
         printf("numitems == %d maxitems == %d", stack->top, stack->maxItems);
         increaseSize(stack);
@@ -68,7 +77,7 @@ int push(void * item, Stack* stack){
      * http://jiten-thakkar.com/posts/writing-generic-stack-in-c
      */
     stack->top++;
-    void* target = (char*)stack->items+(stack->top*stack->memberSize);
+    target = (char*)stack->items+(stack->top*stack->memberSize);
     memcpy(target, item, stack->memberSize);
     return 1;
 }
@@ -85,15 +94,16 @@ int push(void * item, Stack* stack){
  *  last item added
  */
 int pop(void* target, Stack* stack){
-    // check to see if there are any items in the stack
-    if(stack->top < 0){//stack->top == 0){
+    /* check to see if there are any items in the stack*/
+    void* source;
+    if(stack->top < 0){/*stack->top == 0){*/
         return 0;
     }
-    // This is where it gets complicated.  Since we are using void pointers, we have to make sure that we point in the
-    // correct location for us to grab the data from.  Since char* is only 1 byte long, we will know exactly where the
-    // item that we need get.  For a better explanation please see this blog :
-    // http://jiten-thakkar.com/posts/writing-generic-stack-in-c
-    void* source = (char*)stack->items+(stack->top*stack->memberSize);
+    /* This is where it gets complicated.  Since we are using void pointers, we have to make sure that we point in the*/
+    /* correct location for us to grab the data from.  Since char* is only 1 byte long, we will know exactly where the*/
+    /* item that we need get.  For a better explanation please see this blog :*/
+    /* http://jiten-thakkar.com/posts/writing-generic-stack-in-c */
+    source = (char*)stack->items+(stack->top*stack->memberSize);
     stack->top--;
     memcpy(target, source, stack->memberSize);
     return 1;
@@ -106,11 +116,20 @@ int pop(void* target, Stack* stack){
  * @param stack
  *  stack to expand
  */
-void increaseSize(Stack * stack){
-//    printf("increasing size\n");
-    // Realloc will create a new array for us and copy the items we already have in the array to our new one
-    stack->items = realloc(stack->items, stack->maxItems * 2);
-    // don't forget to increase your max size now!
+static void increaseSize(Stack * stack){
+/*    printf("increasing size\n");*/
+    /* Realloc will create a new array for us and copy the items we already have in the array to our new one*/
+    if(stack == NULL){
+        fprintf(stderr, "\n\nStack is NULL\n\n");
+        return;
+    }
+    if(stack->items == NULL){
+        fprintf(stderr, "\n\nStack items is not allocated\n\n");
+        return;
+    }
+    stack->items = realloc(stack->items, (size_t) stack->maxItems * 2);
+
+    /* don't forget to increase your max size now!*/
     stack->maxItems *= 2;
 }
 
@@ -121,12 +140,12 @@ void increaseSize(Stack * stack){
  *  Stack to free
  * @return
  *  if it did not fail then return 1
- */
+ *//*
 int freeStack(Stack* stack){
-    // first remember to free the arrays you made!
+    *//* first remember to free the arrays you made!*//*
     free(stack->items);
-    // Now we can free the memory allocated to the stack
+    *//* Now we can free the memory allocated to the stack*//*
     free(stack);
     return 1;
-}
+}*/
 
