@@ -3,6 +3,7 @@
 IDIR =./include
 CC=gcc
 CFLAGS=-I$(IDIR) -Wall -std=c99
+PIC=-fPIC
 LIBS=-lm
 ODIR=bin
 LIBDIR=lib
@@ -29,6 +30,17 @@ sudoku.o:
 	@echo "Creating sudoku solver object file"
 	@$(CC) -c $(CFLAGS) src/sudoku.c -o $(ODIR)/sudoku.o
 	@echo "Sudoku solver object file successfully created!"
+
+pic: 
+	@echo "Creating sudoku solver & stack shared object files"
+	@$(CC) -c $(CFLAGS) $(PIC) src/sudoku.c -o $(ODIR)/sudoku.o
+	@$(CC) -c $(CFLAGS) $(PIC) src/stack.c -o $(ODIR)/stack.o
+	@echo "Both object files successfully created!"
+
+shared: pic
+	@echo "Creating sudoku solver shared library"
+	@$(CC) -shared -o $(LIBDIR)/libsudoku.so $(ODIR)/sudoku.o $(ODIR)/stack.o
+	@echo "Sudoku solver shared library succsessfully created!"
 
 clean:
 	@echo "Cleaning up all generated files"
