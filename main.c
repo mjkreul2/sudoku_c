@@ -68,11 +68,12 @@ int main() {
             "sudokus/s15a.txt",
             "sudokus/s15b.txt",
             "sudokus/s15c.txt",
-            "sudokus/s16.txt"
+            "sudokus/s16.txt",
+            "sudokus/s17.txt"
         };
 
     /* Run through all of the boards and print them out before and after being solved. */
-    for( i = 0; i < 46; i++){
+    for( i = 0; i < 47; i++){
         board = buildBoard(strings[i]);
         if(board == NULL) {
             fprintf(stderr, "\n\n Board creation error \n\n");

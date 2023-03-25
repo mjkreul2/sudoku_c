@@ -402,9 +402,10 @@ int isSolution(int** board){
  * @param board 
  * @return int* 
  */
-void parseIntPointer(int* board){
+int* parseIntPointer(int* board){
     int i;
     int j;
+    int * toRet;
     int ** inputBoard;
     int ** returnedBoard;
 
@@ -428,20 +429,35 @@ void parseIntPointer(int* board){
         inputBoard[i][j%9] = board[j];
         if (j%9==8) i++;
     }
+    //print the board (for debugging purposes)
+    printf("*********************************************\n*************** Input Board *****************\n*********************************************\n\n");
+    printBoard(inputBoard);
 
     //now pass in our new board to be solved
     returnedBoard = solve(inputBoard);
 
+    //print our new board
+    printf("*********************************************\n*************** Output Board ****************\n*********************************************\n\n");
+    printBoard(returnedBoard);
     //now copy our values back into our in/out param
+
+    toRet = (int*) malloc(sizeof(int)* 81);
     i = 0;
     for(j = 0; j < 81; j++){
-        board[j] = inputBoard[i][j%9];
+        toRet[j] = returnedBoard[i][j%9];
+        board[j] = returnedBoard[i][j%9];
         if (j%9==8) i++;
     }
     
     // don't forget to free our pointers :) 
     free(inputBoard);
     free(returnedBoard);
+
+    return toRet;
+}
+
+void freeIntPointer(int* board){
+    free(board);
 }
 
 
