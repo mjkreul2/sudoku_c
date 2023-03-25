@@ -430,15 +430,15 @@ int* parseIntPointer(int* board){
         if (j%9==8) i++;
     }
     //print the board (for debugging purposes)
-    printf("*********************************************\n*************** Input Board *****************\n*********************************************\n\n");
-    printBoard(inputBoard);
+    // printf("*********************************************\n*************** Input Board *****************\n*********************************************\n\n");
+    // printBoard(inputBoard);
 
     //now pass in our new board to be solved
     returnedBoard = solve(inputBoard);
 
-    //print our new board
-    printf("*********************************************\n*************** Output Board ****************\n*********************************************\n\n");
-    printBoard(returnedBoard);
+    // //print our new board
+    // printf("*********************************************\n*************** Output Board ****************\n*********************************************\n\n");
+    // printBoard(returnedBoard);
     //now copy our values back into our in/out param
 
     toRet = (int*) malloc(sizeof(int)* 81);
