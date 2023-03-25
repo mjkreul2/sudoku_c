@@ -35,6 +35,8 @@ void printBoard(int**);
 
 int isSolution(int **);
 
+void parseIntPointer(int*);
+
 //int solvable(int**);
 
 

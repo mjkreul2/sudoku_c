@@ -184,7 +184,7 @@ static int validMove(int i, int j, int k, int** board){
     /*check the row*/
     for ( m = 0; m < 9; m++) {
         /*if(m == i){
-           m++;
+            m++;
         }*/
         if (board[m][j] == k) {
             return 0;
@@ -208,7 +208,7 @@ void printBoard(int** board){
     l = 1;
     for ( i = 0; i < 9; i++){ /*: originalBoard) {*/
         printf("| ");
-         k = 1;
+        k = 1;
         for ( j = 0; j < 9; j++){ /*: i) {*/
             if (board[i][j] < 1) printf(" _ ");
             else printf(" %d ", board[i][j]);
@@ -378,7 +378,7 @@ int isSolution(int** board){
             /*check the row*/
             for ( m = 0; m < 9; m++) {
                 if(m == i){
-                   m++;
+                    m++;
                 }
                 else if (board[m][j] == board[i][j]) {
                     printf("invalid block at (%d,%d)\n", i, j);
@@ -394,6 +394,56 @@ int isSolution(int** board){
     /* if it goes through every number without an error then it is a solution! */
     return 1;
 }
+
+
+/**
+ * @brief 
+ * 
+ * @param board 
+ * @return int* 
+ */
+void parseIntPointer(int* board){
+    int i;
+    int j;
+    int ** inputBoard;
+    int ** returnedBoard;
+
+    // Initialize inputBoard
+    inputBoard = (int**) malloc((size_t) sizeof(int*) * 9);
+    if(inputBoard == NULL){
+        fprintf(stderr, "\n\ninputBoard is Null\n\n");
+        free(inputBoard);
+    }
+    for( i = 0; i < 9; i++){
+        inputBoard[i] = (int*) malloc((size_t) sizeof(int) * 9);
+        if(inputBoard[i] == NULL){
+            fprintf(stderr, "\n\ninputBoard is Null\n\n");
+            free(inputBoard);
+        }
+    }
+
+    // copy over the int* values into the int**
+    i = 0;
+    for(j = 0; j < 81; j++){
+        inputBoard[i][j%9] = board[j];
+        if (j%9==8) i++;
+    }
+
+    //now pass in our new board to be solved
+    returnedBoard = solve(inputBoard);
+
+    //now copy our values back into our in/out param
+    i = 0;
+    for(j = 0; j < 81; j++){
+        board[j] = inputBoard[i][j%9];
+        if (j%9==8) i++;
+    }
+    
+    // don't forget to free our pointers :) 
+    free(inputBoard);
+    free(returnedBoard);
+}
+
 
 /**
  *
